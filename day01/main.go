@@ -20,30 +20,18 @@ func main() {
 	}
 	fmt.Println("Lines count: ", len(lines))
 
-	var code int = puzzle01(50, lines)
+	var code int = puzzle(50, lines, rotate)
 	fmt.Println("Puzzle 1. Code: ", code) // Answer: 1007
 
-	var code2 int = puzzle02(50, lines)
+	var code2 int = puzzle(50, lines, m0x434C49434B)
 	fmt.Println("Puzzle 2. Code: ", code2) // Answer: 5820
-
 }
 
-func puzzle01(startedValue int, lines []string) int {
+func puzzle(startedValue int, lines []string, fn func(int, int) (int, int)) int {
 	var zeroCount int = 0
 	for _, line := range lines {
 		var step int = parseLine(line)
-		var nextValue, z = rotate(startedValue, step)
-		zeroCount += z
-		startedValue = nextValue
-	}
-	return zeroCount
-}
-
-func puzzle02(startedValue int, lines []string) int {
-	var zeroCount int = 0
-	for _, line := range lines {
-		var step int = parseLine(line)
-		var nextValue, z = m0x434C49434B(startedValue, step)
+		var nextValue, z = fn(startedValue, step)
 		zeroCount += z
 		startedValue = nextValue
 	}

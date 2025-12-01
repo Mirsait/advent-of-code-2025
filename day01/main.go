@@ -22,6 +22,10 @@ func main() {
 
 	var code int = puzzle01(50, lines)
 	fmt.Println("Puzzle 1. Code: ", code) // Answer: 1007
+
+	var code2 int = puzzle02(50, lines)
+	fmt.Println("Puzzle 2. Code: ", code2) // Answer: 5820
+
 }
 
 func puzzle01(startedValue int, lines []string) int {
@@ -29,6 +33,17 @@ func puzzle01(startedValue int, lines []string) int {
 	for _, line := range lines {
 		var step int = parseLine(line)
 		var nextValue, z = rotate(startedValue, step)
+		zeroCount += z
+		startedValue = nextValue
+	}
+	return zeroCount
+}
+
+func puzzle02(startedValue int, lines []string) int {
+	var zeroCount int = 0
+	for _, line := range lines {
+		var step int = parseLine(line)
+		var nextValue, z = m0x434C49434B(startedValue, step)
 		zeroCount += z
 		startedValue = nextValue
 	}
@@ -68,4 +83,47 @@ func abs(n int) int {
 		return -1 * n
 	}
 	return n
+}
+
+const (
+	Min = 0
+	Max = 100
+)
+
+func reset100(value int) int {
+	if value == 100 {
+		return 0
+	}
+	return value
+}
+
+func m0x434C49434B(current, step int) (int, int) {
+	var offset = current + step
+
+	if step == 0 {
+		return current, 0
+	}
+	if step > 0 {
+		var next = offset % Max
+		var count = offset / Max
+		return next, count
+	}
+
+	if offset > 0 {
+		return offset, 0
+	}
+	if offset == 0 {
+		return 0, 1
+	}
+
+	if current == 0 {
+		var next = Max - (abs(offset) % Max)
+		var count = abs(offset) / Max
+		return next, count
+	}
+
+	var norm = abs(offset)
+	var next = reset100(Max - (norm % Max))
+	var count = (norm / Max) + 1
+	return next, count
 }

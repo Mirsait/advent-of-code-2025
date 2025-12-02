@@ -20,3 +20,17 @@ func ReadFileByLines(filename string) ([]string, error) {
 	}
 	return lines, nil
 }
+
+func ReadFile(filename string) (string, error) {
+	var file, errOpen = os.Open(filename)
+	if errOpen != nil {
+		return "Error opening file", errOpen
+	}
+	defer file.Close()
+
+	var contentBytes, errRead = os.ReadFile(filename)
+	if errRead != nil {
+		return "Error reading file", errRead
+	}
+	return string(contentBytes), nil
+}

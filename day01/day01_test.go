@@ -22,7 +22,7 @@ func TestParseLine_R(t *testing.T) {
 func TestPuzzle01(t *testing.T) {
 	var lines = []string{"L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"}
 	var expected int = 3
-	var actual = puzzle01(50, lines)
+	var actual = puzzle(50, lines, rotate)
 	if actual != expected {
 		t.Errorf("puzzle01() returned %d; expected %d", actual, expected)
 	}
@@ -84,7 +84,7 @@ func TestM0x434C49434B(t *testing.T) {
 func TestPuzzle02(t *testing.T) {
 	var lines = []string{"L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"}
 	var expected int = 6
-	var actual = puzzle02(50, lines)
+	var actual = puzzle(50, lines, m0x434C49434B)
 	if actual != expected {
 		t.Errorf("puzzle02() returned %d; expected %d", actual, expected)
 	}

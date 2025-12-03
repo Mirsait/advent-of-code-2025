@@ -25,3 +25,23 @@ func Next(start, end int64) func() (int64, bool) {
 		return val, true
 	}
 }
+
+func StringToDigits(str string) []int {
+	var nums = make([]int, len(str))
+	for j, ch := range str {
+		nums[j] = int(ch - '0')
+	}
+	return nums
+}
+
+func MaxWithIndex(nums []int) (int, int) {
+	var max = 0
+	var index = -1
+	for j, v := range nums {
+		if v > max {
+			max = v
+			index = j
+		}
+	}
+	return max, index
+}

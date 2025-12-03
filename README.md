@@ -19,8 +19,10 @@ December, designed to challenge problem-solving and algorithmic thinking.
 
 Each day’s folder contains:
 - `main.go` – Entry point for the solution  
-- `input.txt` – Puzzle input (not included here, see Advent of Code site)  
-- `part-1.txt`, `part-2.txt` - Puzzle descriptions (not included here, see Advent of Code site)
+- `input.txt` – Puzzle input (not included here, see 
+[Advent of Code 2025](https://adventofcode.com/2025))  
+- `part-1.txt`, `part-2.txt` – Puzzle descriptions (not included here, see 
+[Advent of Code 2025](https://adventofcode.com/2025))
 - `test.go` – Optional unit tests  
 
 ---
@@ -40,10 +42,14 @@ go run .
 If the solution requires an input file, place it in the same folder as `input.txt`.
 
 ### Running Tests
-Some solutions include unit tests. Run them in solution's folder  with:
+Some solutions include unit tests (and benchmarks). Run them in solution's folder  with:
 
 ```bash
 go test .
+```
+
+```bash
+go test -bench=.
 ```
 
 ---

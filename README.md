@@ -69,3 +69,22 @@ go test -bench=.
 - Puzzle inputs are **not included** in this repository, as per Advent of Code rules.  
 - Solutions are written with clarity and readability in mind, sometimes prioritizing simplicity over extreme optimization.  
 - Feel free to explore, learn, and adapt these solutions for your own practice.
+
+## Create gif after render to png-images
+
+```bash
+ffmpeg -i %3d.png -vf "fps=10,scale=640:-1:flags=lanczos" output.gif
+```
+
+and with reverse
+```bash
+# first a direct pass
+ffmpeg -framerate 10 -i %3d.png -vf "scale=640:-1:flags=lanczos" forward.mp4
+
+# then reverse
+ffmpeg -i forward.mp4 -vf reverse reverse.mp4
+
+# join
+ffmpeg -i forward.mp4 -i reverse.mp4 -filter_complex "[0:v][1:v]concat=n=2:v=1:a=0" output.gif
+
+```

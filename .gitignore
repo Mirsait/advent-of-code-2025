@@ -33,3 +33,6 @@ go.work.sum
 
 # input and description files
 *.txt
+*.png
+*.gif
+images/

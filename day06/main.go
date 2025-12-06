@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
+	"time"
 
 	"github.com/Mirsait/advent-of-code-2025/common"
 )
@@ -22,17 +22,23 @@ func main() {
 	// 	"  6 98  215 314",
 	// 	"*   +   *   +  "}
 
+	start1 := time.Now()
 	code1 := puzzle1(lines)
+	elapsed1 := time.Since(start1)
 	fmt.Println("Puzzle I. Code [5060053676136]: ", code1)
+	fmt.Println("Time (microsecond): ", elapsed1.Microseconds())
 
+	start2 := time.Now()
 	code2 := puzzle2(lines)
+	elapsed2 := time.Since(start2)
 	fmt.Println("Puzzle II. Code [9695042567249]: ", code2)
+	fmt.Println("Time (microsecond): ", elapsed2.Microseconds())
 }
 
 func puzzle1(lines []string) int64 {
 	strNumbers, strOperations := splitData(lines)
 	numbers := parseNumberLines(strNumbers)
-	rotated := rotate(numbers)
+	rotated := transpose(numbers)
 	operations := parseOperations(strOperations)
 	var result int64 = 0
 	for j, op := range operations {
@@ -55,19 +61,21 @@ func puzzle2(lines []string) int64 {
 // 98  12
 // 4   345
 // +   *
-// => [[8, 94], [5, 24, 13]] [Mul, Sum]
+// => [[[5, 24, 13], [8, 94] ] [Mul, Sum]
 func combineLines(strNumbers []string, strOperations string) ([][]int64, []Operation) {
 	opCount := len(strOperations)
-	var operations []Operation
-	var result [][]int64
-	var line []int64
+	var (
+		operations []Operation
+		result     [][]int64
+		line       []int64
+	)
 	for j := opCount - 1; j >= 0; j-- {
 		num, ok := getNumber(j, strNumbers)
 		if ok {
 			line = append(line, num)
 			op := strOperations[j]
 			if op == '+' || op == '*' {
-				operations = append(operations, parseOperation(op))
+				operations = append(operations, parseOperation(rune(op)))
 				result = append(result, line)
 				line = nil
 			}
@@ -77,12 +85,13 @@ func combineLines(strNumbers []string, strOperations string) ([][]int64, []Opera
 }
 
 func getNumber(index int, lines []string) (int64, bool) {
-	var combined []string
+	var b strings.Builder
 	for _, line := range lines {
-		sv := string(line[index])
-		combined = append(combined, sv)
+		if index < len(line) {
+			b.WriteByte(line[index])
+		}
 	}
-	joined := strings.TrimSpace(strings.Join(combined, ""))
+	joined := strings.TrimSpace(b.String())
 	parsed, ok := common.ParseToInt64(joined)
 	return parsed, ok
 }
@@ -93,23 +102,10 @@ func splitData(lines []string) ([]string, string) {
 
 func parseNumberLines(str []string) [][]int64 {
 	result := make([][]int64, len(str))
-	re := regexp.MustCompile(`\d+`)
 	for j, line := range str {
-		matches := re.FindAllString(line, -1)
-		result[j] = parseNumbers(matches)
-	}
-	return result
-}
-
-func rotate(data [][]int64) [][]int64 {
-	rows := len(data)
-	cols := len(data[0])
-	result := make([][]int64, cols)
-	for cj := range cols {
-		result[cj] = make([]int64, rows)
-		for rj := range rows {
-			result[cj][rj] = data[rj][cj]
-		}
+		fields := strings.Fields(line)
+		nums := parseNumbers(fields)
+		result[j] = nums
 	}
 	return result
 }
@@ -123,36 +119,41 @@ func parseNumbers(str []string) []int64 {
 	return result
 }
 
-type Action = func(x, y int64) int64
-type Operation = func(values []int64) int64
-
-func Sum(values []int64) int64 {
-	return reduce(func(x, y int64) int64 { return x + y }, 0, values)
-}
-
-func Mul(values []int64) int64 {
-	return reduce(func(x, y int64) int64 { return x * y }, 1, values)
-}
-
-func reduce(op Action, initial int64, values []int64) int64 {
-	for _, value := range values {
-		initial = op(initial, value)
-	}
-	return initial
-}
-
-func parseOperations(str string) []Operation {
-	re := regexp.MustCompile(`[+|*]`)
-	m := re.FindAllString(str, -1)
-	result := make([]Operation, len(m))
-	for j, v := range m {
-		trimd := strings.Trim(v, " ")
-		result[j] = parseOperation(trimd[0])
+func transpose(data [][]int64) [][]int64 {
+	rows := len(data)
+	cols := len(data[0])
+	result := make([][]int64, cols)
+	for cj := range cols {
+		result[cj] = make([]int64, rows)
+		for rj := range rows {
+			result[cj][rj] = data[rj][cj]
+		}
 	}
 	return result
 }
 
-func parseOperation(op byte) Operation {
+type Action = func(x, y int64) int64
+type Operation = func(values []int64) int64
+
+func Sum(values []int64) int64 {
+	return common.Reduce(func(x, y int64) int64 { return x + y }, 0, values)
+}
+
+func Mul(values []int64) int64 {
+	return common.Reduce(func(x, y int64) int64 { return x * y }, 1, values)
+}
+
+func parseOperations(str string) []Operation {
+	result := make([]Operation, 0, len(str))
+	for _, ch := range str {
+		if ch == '+' || ch == '*' {
+			result = append(result, parseOperation(ch))
+		}
+	}
+	return result
+}
+
+func parseOperation(op rune) Operation {
 	switch op {
 	case '+':
 		return Sum

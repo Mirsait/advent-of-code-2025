@@ -6,8 +6,17 @@ import (
 )
 
 func ParseToInt64(value string) (int64, bool) {
-	var trim = strings.TrimSpace(value)
-	var num, err = strconv.ParseInt(trim, 10, 64)
+	trim := strings.TrimSpace(value)
+	num, err := strconv.ParseInt(trim, 10, 64)
+	if err != nil {
+		return 0, false
+	}
+	return num, true
+}
+
+func ParseToInt(value string) (int, bool) {
+	trim := strings.TrimSpace(value)
+	num, err := strconv.Atoi(trim)
 	if err != nil {
 		return 0, false
 	}
@@ -15,19 +24,19 @@ func ParseToInt64(value string) (int64, bool) {
 }
 
 func Next(start, end int64) func() (int64, bool) {
-	var j = start
+	j := start
 	return func() (int64, bool) {
 		if j > end {
 			return 0, false
 		}
-		var val = j
+		val := j
 		j++
 		return val, true
 	}
 }
 
 func StringToDigits(str string) []int {
-	var nums = make([]int, len(str))
+	nums := make([]int, len(str))
 	for j, ch := range str {
 		nums[j] = int(ch - '0')
 	}
@@ -35,8 +44,8 @@ func StringToDigits(str string) []int {
 }
 
 func MaxWithIndex(nums []int) (int, int) {
-	var max = 0
-	var index = -1
+	max := 0
+	index := -1
 	for j, v := range nums {
 		if v > max {
 			max = v

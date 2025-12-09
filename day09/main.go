@@ -16,7 +16,8 @@ func main() {
 	common.Clear()
 	fmt.Println(common.Hello())
 
-	lines, err := common.ReadFileByLines("input.txt")
+	// lines, err := common.ReadFileByLines("input.txt")
+	lines, err := common.ReadFileByLines("testdata")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -24,8 +25,11 @@ func main() {
 
 	points := parsePositions(lines)
 
-	answer1 := puzzle1(points)
-	fmt.Println("Puzzle I. Answer [4773451098]:", answer1)
+	// answer1 := puzzle1(points)
+	// fmt.Println("Puzzle I. Answer [4773451098]:", answer1)
+
+	answer2 := puzzle2(points)
+	fmt.Println("Puzzle II. Answer []:", answer2)
 }
 
 func puzzle1(points []Point2) int {
@@ -70,4 +74,33 @@ func Abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+// PART II
+
+func printPoints(points []Point2) {
+	fmt.Println("x  y")
+	for _, p := range points {
+		fmt.Printf("%3d %3d\n", p.X, p.Y)
+	}
+	fmt.Println("___")
+}
+
+func puzzle2(points []Point2) int {
+	// делаю обход по внешней границе
+	hull := orthoConvexHull(points)
+	printPoints(hull)
+	edges := hullToEdges(hull)
+	printEdges(edges)
+	area := getAreaFromEdges(edges)
+	return area
+
+}
+
+func printEdges(edges []Edge) {
+	fmt.Println("p1\tp2")
+	for _, e := range edges {
+		fmt.Printf("%v\t%v\n", e.P1, e.P2)
+	}
+	fmt.Println("___")
 }

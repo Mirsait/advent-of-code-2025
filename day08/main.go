@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/Mirsait/advent-of-code-2025/common"
 )
@@ -12,7 +13,7 @@ func main() {
 	fmt.Println(common.Hello())
 
 	lines, err := common.ReadFileByLines("input.txt")
-	// limit := 1000
+	limit := 1000
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -21,17 +22,17 @@ func main() {
 
 	points := parsePoints(lines)
 
-	// start1 := time.Now()
-	// answer1 := puzzle1(points, limit)
-	// elapsed1 := time.Since(start1)
-	// fmt.Println("Puzzle I. Answer: [90036]", answer1)
-	// fmt.Println("Time: ", elapsed1.Milliseconds())
+	start1 := time.Now()
+	answer1 := puzzle1(points, limit)
+	elapsed1 := time.Since(start1)
+	fmt.Println("Puzzle I. Answer: [90036]", answer1)
+	fmt.Println("Time, ms: ", elapsed1.Milliseconds())
 
-	// start2 := time.Now()
+	start2 := time.Now()
 	answer2 := puzzle2(points)
-	// elapsed2 := time.Since(start1)
-	fmt.Println("Puzzle II. Answer: []", answer2)
-	// fmt.Println("Time: ", elapsed2.Milliseconds())
+	elapsed2 := time.Since(start2)
+	fmt.Println("Puzzle II. Answer: [6083499488]", answer2)
+	fmt.Println("Time, ms:", elapsed2.Milliseconds())
 }
 
 func parsePoints(lines []string) []Point3 {

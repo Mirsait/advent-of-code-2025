@@ -2,22 +2,17 @@ package main
 
 import (
 	"fmt"
-	"slices"
+	"sort"
 
 	"github.com/Mirsait/advent-of-code-2025/common"
 )
 
 func puzzle1(points []Point3, limit int) int {
 	connections := calcDistancesMap(points)
+
 	// sort by distance
-	slices.SortFunc(connections, func(m, n Connection) int {
-		if m.D > n.D {
-			return 1
-		}
-		if m.D < n.D {
-			return -1
-		}
-		return 0
+	sort.Slice(connections, func(j, k int) bool {
+		return connections[j].D < connections[k].D
 	})
 
 	connections = connections[:limit]
@@ -26,19 +21,16 @@ func puzzle1(points []Point3, limit int) int {
 	for _, conn := range connections {
 		AddChain(conn, &chains)
 	}
+
 	var counts []int
 	for _, ch := range chains {
 		local := ch.PointCount()
 		counts = append(counts, local)
 	}
-	slices.SortFunc(counts, func(x, y int) int {
-		if x < y {
-			return 1
-		} else if x > y {
-			return -1
-		}
-		return 0
+	sort.Slice(counts, func(i, j int) bool {
+		return counts[i] > counts[j]
 	})
+
 	return common.Reduce(func(acc, x int) int { return acc * x }, 1, counts[:3])
 }
 

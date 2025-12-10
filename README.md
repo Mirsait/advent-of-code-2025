@@ -11,6 +11,16 @@ December, designed to challenge problem-solving and algorithmic thinking.
 
 ## 📂 Repository Structure
 
+|            |            |
+|  ------    |  ------    |
+| Day 01  ✔️  ✔️ | Day 07  ✔️  ✔️ |
+| Day 02  ✔️  ✔️ | Day 08  ✔️  ✔️ |
+| Day 03  ✔️  ✔️ | Day 09  ✔️ ☐  |
+| Day 04  ✔️  ✔️ | Day 10  ☐  ☐  |
+| Day 05  ✔️  ✔️ | Day 11  ☐  ☐  |
+| Day 06  ✔️  ✔️ | Day 12  ☐  ☐  |
+|------------|-----------|
+
 - `day01/` – Solution for Day 1 puzzle  
 - `day02/` – Solution for Day 2 puzzle
 - ... and so on, up to Day 12

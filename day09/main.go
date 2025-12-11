@@ -16,8 +16,8 @@ func main() {
 	common.Clear()
 	fmt.Println(common.Hello())
 
-	// lines, err := common.ReadFileByLines("input.txt")
-	lines, err := common.ReadFileByLines("testdata")
+	lines, err := common.ReadFileByLines("input.txt")
+	// lines, err := common.ReadFileByLines("testdata")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -25,11 +25,11 @@ func main() {
 
 	points := parsePositions(lines)
 
-	// answer1 := puzzle1(points)
-	// fmt.Println("Puzzle I. Answer [4773451098]:", answer1)
+	answer1 := puzzle1(points)
+	fmt.Println("Puzzle I. Answer [4773451098]:", answer1)
 
-	answer2 := puzzle2(points)
-	fmt.Println("Puzzle II. Answer []:", answer2)
+	// answer2 := puzzle2(points)
+	// fmt.Println("Puzzle II. Answer []:", answer2)
 }
 
 func puzzle1(points []Point2) int {

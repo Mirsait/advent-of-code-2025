@@ -17,7 +17,7 @@ December, designed to challenge problem-solving and algorithmic thinking.
 | Day 02  ✔️  ✔️ | Day 08  ✔️  ✔️ |
 | Day 03  ✔️  ✔️ | Day 09  ✔️  ☐  |
 | Day 04  ✔️  ✔️ | Day 10  ✔️  ☐  |
-| Day 05  ✔️  ✔️ | Day 11  ✔️  ☐  |
+| Day 05  ✔️  ✔️ | Day 11  ✔️  ✔️  |
 | Day 06  ✔️  ✔️ | Day 12  ☐  ☐  |
 |------------|-----------|
 
